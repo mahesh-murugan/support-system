@@ -1,0 +1,81 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'support_system_app/assets/icons/tickets.svg' %}">
+
+    <title>Support System Sign In</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'support_system_app/css/bootstrap.css' %}" rel="stylesheet">
+</head>
+
+<body>
+<!-- Image and text -->
+<nav class="navbar navbar-dark bg-warning">
+    <a class="navbar-brand"  style="text-decoration: none;" href="#" title="Support System">
+        <img src="{% static 'support_system_app/assets/icons/tickets.svg' %}" width="40" height="40" alt="Support System">
+        <span class="font-weight-bold ml-2">Support System</span>
+    </a>
+</nav>
+<div class="container mt-5">
+    <div class="row border">
+        <div class="col p-5">
+            <h5 class="font-weight-bold">Already a member?</h5><br>
+            <h6>Sign In</h6>
+            <form method="post">
+                {% csrf_token %}
+                <small class="text-danger mb-4">{{ error }}</small>
+                {{ form.as_p }}
+                <button class="btn btn-outline-dark float-right">Sign In</button>
+            </form>
+        </div>
+        <div class="col p-5">
+            <div class="row">
+                <div class="col-2 text-right">
+                    <img src="{% static 'support_system_app/assets/icons/avatar.svg' %}" height="50" width="50" alt="sign up">
+                </div>
+                <div class="col-10">
+                    <h6 class="font-weight-bold">New User? <a href="#" class="text-info" style="text-decoration: none;">Sign Up</a></h6>
+                    <small>
+                        Create an account to submit tickets, engage in our community.
+                    </small>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-2 text-right">
+                    <img src="{% static 'support_system_app/assets/icons/padlock.svg' %}" height="50" width="50" alt="Forgot Password">
+                </div>
+                <div class="col-10">
+                    <h6 class="font-weight-bold">Forgot Password? <a href="#" class="text-info"  style="text-decoration: none;">Reset</a></h6>
+                    <small>
+                        We will send a password reset link to your email address.
+                    </small>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-2 text-right">
+                    <img src="{% static 'support_system_app/assets/icons/headphone.svg' %}" height="50" width="50" alt="sign up">
+                </div>
+                <div class="col-10">
+                    <h6 class="font-weight-bold">Are you an Agent? <a href="#" class="text-info" style="text-decoration: none;">Log in here</a></h6>
+                    <small>
+                        You will be taken to the agent interface.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer bg-warning mt-5 text-center" style="position: fixed; bottom: 0; width: 100%;">
+    <div class="container-fluid p-4">
+        <span>Support System | Copyright © 2020 Support System ™ | All Rights Reserved</span>
+    </div>
+</footer>
+
+</body>
+</html>

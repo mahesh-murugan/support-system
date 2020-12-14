@@ -1,0 +1,75 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="{% static 'support_system_app/assets/icons/tickets.svg' %}">
+
+    <title>Support System New Ticket</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'support_system_app/css/bootstrap.css' %}" rel="stylesheet">
+</head>
+
+<body>
+<nav class="navbar navbar-dark bg-warning">
+    <a class="navbar-brand"  style="text-decoration: none;" href="#" title="Support System">
+        <img src="{% static 'support_system_app/assets/icons/tickets.svg' %}" width="40" height="40" alt="Support System">
+        <span class="font-weight-bold ml-2">Support System</span>
+    </a>
+    <ul class="nav nav-pills mr-5">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white btn-dark" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Account</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">{{ request.user }}</a>
+                <div role="separator" class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'login_view' %}">logout</a>
+            </div>
+        </li>
+    </ul>
+</nav>
+
+<div class="container mt-5">
+    <div class="row border">
+        <div class="col p-5">
+            <h4 class="font-weight-bold">Submit a ticket</h4><br>
+            <h6 class="font-weight-bold">Ticket Information</h6><br>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    {% if field.name != 'name' and field.name != 'email' %}
+                        <small class="font-weight-bold">{{ field.label_tag }} <span class="text-danger">*</span></small>
+                        {{ field.errors }}
+                        {{ field }}
+                        <br>
+                    {% endif %}
+                {% endfor %}
+
+                <h6 class="font-weight-bold">Contact Details</h6><br>
+                <small class="font-weight-bold">{{ form.name.label_tag }} <span class="text-danger">*</span></small>
+                {{ form.name.errors }}
+                {{ form.name }}
+                <br>
+                <small class="font-weight-bold">{{ form.email.label_tag }} <span class="text-danger">*</span></small>
+                {{ form.email.errors }}
+                {{ form.email }}
+                <br>
+
+                <button class="btn btn-info">submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+<footer class="footer bg-warning mt-5 text-center">
+    <div class="container-fluid p-4">
+        <span>Support System | Copyright © 2020 Support System ™ | All Rights Reserved</span>
+    </div>
+</footer>
+
+<script type="application/javascript" src="{% static 'support_system_app/js/jquery.js' %}"></script>
+<script type="application/javascript" src="{% static 'support_system_app/js/bootstrap.js' %}"></script>
+</body>
+</html>
