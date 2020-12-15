@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="{% static 'support_system_app/assets/icons/tickets.svg' %}">
 
-    <title>Support System New Ticket</title>
+    <title>Support System Manage Ticket</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'support_system_app/css/bootstrap.css' %}" rel="stylesheet">
@@ -21,12 +21,12 @@
         <span class="font-weight-bold ml-2">Support System</span>
     </a>
     <ul class="nav nav-pills mr-5">
-         <li class="nav-item active">
-            <a class="nav-link text-white" href="{% url 'manage_ticket_view' %}">Manage Tickets </a>
+        <li class="nav-item active">
+            <a class="nav-link text-white" href="{% url 'create_ticket_view' %}">Add Ticket </a>
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-white btn-dark" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Account</a>
-            <div class="dropdown-menu">
+            <div class="dropdown-menu ">
                 <a class="dropdown-item" href="#">{{ request.user }}</a>
                 <div role="separator" class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'login_view' %}">logout</a>
@@ -35,38 +35,45 @@
     </ul>
 </nav>
 
-<div class="container mt-5">
-    <div class="row border">
-        <div class="col p-5">
-            <h4 class="font-weight-bold">Submit a ticket</h4><br>
-            <h6 class="font-weight-bold">Ticket Information</h6><br>
-            <form method="post">
-                {% csrf_token %}
-                {% for field in form %}
-                    {% if field.name != 'name' and field.name != 'email' %}
-                        <small class="font-weight-bold">{{ field.label_tag }} <span class="text-danger">*</span></small>
-                        {{ field.errors }}
-                        {{ field }}
-                        <br>
-                    {% endif %}
-                {% endfor %}
-
-                <h6 class="font-weight-bold">Contact Details</h6><br>
-                <small class="font-weight-bold">{{ form.name.label_tag }} <span class="text-danger">*</span></small>
-                {{ form.name.errors }}
-                {{ form.name }}
-                <br>
-                <small class="font-weight-bold">{{ form.email.label_tag }} <span class="text-danger">*</span></small>
-                {{ form.email.errors }}
-                {{ form.email }}
-                <br>
-
-                <button class="btn btn-info">submit</button>
-            </form>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col">
+            <span class="font-weight-bold text-secondary">Status: </span>
+            <span class="font-weight-bold text-warning ml-2 border border-top-0 border-left-0 border-bottom-0">Open </span>
+            <span class="font-weight-bold text-warning ml-2 border border-top-0 border-left-0 border-bottom-0">Closed </span>
+            <span class="font-weight-bold text-warning ml-2 pr-2 border border-top-0 border-left-0 border-bottom-0">On Hold </span>
+        </div>
+        <div class="text-right">
+            <span class="font-weight-bold text-secondary">Created By: </span>
+            <span class="font-weight-bold text-warning ml-2 ">You </span>
         </div>
     </div>
 </div>
-<footer class="footer bg-warning mt-5 text-center">
+
+{% if messages %}
+
+    {% for message in messages %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Holy guacamole!</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endfor %}
+
+{% endif %}
+
+
+<div class="container mt-4">
+    <div class="row border">
+        <div class="col p-5">
+
+
+        </div>
+    </div>
+</div>
+
+<footer class="footer bg-warning mt-5 text-center" style="position: absolute; bottom: 0; left:0; right: 0;">
     <div class="container-fluid p-4">
         <span>Support System | Copyright © 2020 Support System ™ | All Rights Reserved</span>
     </div>
@@ -74,5 +81,14 @@
 
 <script type="application/javascript" src="{% static 'support_system_app/js/jquery.js' %}"></script>
 <script type="application/javascript" src="{% static 'support_system_app/js/bootstrap.js' %}"></script>
+<script type="application/javascript">
+    $.ajax({
+        url: '{% url "manage_ticket_ajax_view" %}',
+        type: 'GET',
+        success : function (response) {
+            console.log(response);
+        }
+    })
+</script>
 </body>
 </html>

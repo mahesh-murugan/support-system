@@ -2,12 +2,13 @@ from django.shortcuts import render
 from django.views.generic import FormView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import login, logout, authenticate
-from django.http.response import HttpResponseRedirect
+from django.http.response import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 from support_system_app.forms import LoginForm, CreateTicketForm
-from support_system_app.zoho_desk_api import create_new_ticket
+from support_system_app.zoho_desk_api import create_new_ticket, get_all_tickets
 
 
 class LoginView(FormView):
@@ -65,6 +66,17 @@ class CreateTicketView(LoginRequiredMixin, FormView):
                 email = form.cleaned_data['email']
                 print(department, category, description)
                 create_new_ticket()
-                return HttpResponseRedirect(reverse('create_ticket_view'))
+                messages.success(self.request, 'Ticket Created Successfully')
+                return HttpResponseRedirect(reverse('manage_ticket_view'))
         return super().form_valid(form)
+
+
+class ManageTicketView(LoginRequiredMixin, TemplateView):
+    template_name = "support_system_app/ticket/ticket_list.html"
+
+
+def manage_tickets_ajax(request):
+    data = {}
+    get_all_tickets()
+    return JsonResponse(data=data)
 
