@@ -6,6 +6,7 @@ from django.http.response import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.contrib import messages
+import json
 
 from support_system_app.forms import LoginForm, CreateTicketForm
 from support_system_app.zoho_desk_api import create_new_ticket, get_all_tickets
@@ -64,8 +65,8 @@ class CreateTicketView(LoginRequiredMixin, FormView):
                 priority = form.cleaned_data['priority']
                 name = form.cleaned_data['name']
                 email = form.cleaned_data['email']
-                print(department, category, description)
-                result = create_new_ticket()
+
+                result = create_new_ticket(department, category, subject, description, priority, name, email)
                 if result is not None:
                     messages.success(self.request, 'Ticket Created Successfully')
                 else:
@@ -81,5 +82,15 @@ class ManageTicketView(LoginRequiredMixin, TemplateView):
 def manage_tickets_ajax(request):
     data = {'ticket_list': []}
     result = get_all_tickets()
+    if result is not None and 'data' in result:
+        for datas in result['data']:
+            if datas['email'] == request.user.email:
+                data['ticket_list'].append({
+                    'subject': datas['subject'] if 'subject' in datas else '',
+                    'description': datas['description'] if 'description' in datas else '',
+                    'priority': datas['priority'] if 'priority' in datas else '',
+                    'ticket_status': datas['status'] if 'status' in datas else '',
+                    'ticket_number': datas['ticketNumber'] if 'ticketNumber' in datas else '',
+                })
     return JsonResponse(data=data)
 

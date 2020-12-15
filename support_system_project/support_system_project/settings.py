@@ -133,5 +133,5 @@ STATIC_URL = '/static/'
 LOGIN_URL = reverse_lazy('login_view')
 
 # Zoho Desk Api Key and Organization id
-API_KEY = 'eddbba7be4c4328154bb8e7b414f4d14'
-ORGANIZATION_ID = '60006854782'
+API_KEY = '9446933330c7f886fbdf16782906a9e0'
+ORGANIZATION_ID = '60001280952'
