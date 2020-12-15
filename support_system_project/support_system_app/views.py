@@ -65,8 +65,11 @@ class CreateTicketView(LoginRequiredMixin, FormView):
                 name = form.cleaned_data['name']
                 email = form.cleaned_data['email']
                 print(department, category, description)
-                create_new_ticket()
-                messages.success(self.request, 'Ticket Created Successfully')
+                result = create_new_ticket()
+                if result is not None:
+                    messages.success(self.request, 'Ticket Created Successfully')
+                else:
+                    messages.warning(self.request, 'Ticket Not Created.')
                 return HttpResponseRedirect(reverse('manage_ticket_view'))
         return super().form_valid(form)
 
@@ -76,7 +79,7 @@ class ManageTicketView(LoginRequiredMixin, TemplateView):
 
 
 def manage_tickets_ajax(request):
-    data = {}
-    get_all_tickets()
+    data = {'ticket_list': []}
+    result = get_all_tickets()
     return JsonResponse(data=data)
 
