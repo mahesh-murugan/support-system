@@ -32,6 +32,7 @@ $ source run_development_server.sh
 ● HTML/CSS
 ● Bootstrap 4
 ● Jquery
+● Ajax
 
 # Backend technologies:
 ● Python 3+
